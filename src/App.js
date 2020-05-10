@@ -4,6 +4,7 @@ import './App.scss';
 
 import HomePage from "./pages/home/HomePage";
 import ShopPage from "./pages/shop/ShopPage";
+import Auth from "./pages/auth/auth";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
             <Switch>
                 <Route exact path='/' component={HomePage}/>
                 <Route path='/shop' component={ShopPage}/>
+                <Route path='/auth' component={Auth}/>
             </Switch>
         </div>
     )
