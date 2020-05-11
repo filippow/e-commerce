@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './collection-preview.scss';
+import './collectionPreview.scss';
 
-import CollectionItem from '../collection-item/collection-item';
+import CollectionItem from '../collectionItem/CollectionItem';
 
 
 const CollectionPreview = ({title, items}) => {
@@ -13,10 +13,10 @@ const CollectionPreview = ({title, items}) => {
                 {
                     items
                         .slice(0, 4)
-                        .map(({id, ...props}) => (
+                        .map(item => (
                             <CollectionItem
-                                key={id}
-                                {...props}
+                                key={item.id}
+                                item={item}
                             />
                         ))
                 }

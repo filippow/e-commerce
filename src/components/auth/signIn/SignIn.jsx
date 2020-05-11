@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
-import './sign-in.scss';
+import './signIn.scss';
 
 import FormField from "../../form-field/form-field";
-import Button from "../../button/button";
+import Button from "../../button/Button";
 
 import {auth, signInWithGoogle} from "../../../firebase/firebaseUtil";
 
