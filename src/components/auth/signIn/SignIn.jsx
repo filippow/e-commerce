@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 
 import './signIn.scss';
 
-import FormField from "../../form-field/form-field";
-import Button from "../../button/Button";
+import FormField from '../../form-field/form-field';
+import Button from '../../button/Button';
 
-import {auth, signInWithGoogle} from "../../../firebase/firebaseUtil";
+import {auth, signInWithGoogle} from '../../../firebase/firebaseUtil';
 
 class SignIn extends Component {
     state = {
@@ -56,7 +56,7 @@ class SignIn extends Component {
                         required
                         handleChange={this.handleChange}
                     />
-                    <div className="buttons">
+                    <div className='buttons'>
                         <Button type='submit'>Sign in</Button>
                         <Button
                             onClick={signInWithGoogle}

@@ -7,7 +7,7 @@ const DropdownItem = ({item}) => {
 
     return (
         <div className='dropdown-item'>
-            <img src={imageUrl}/>
+            <img src={imageUrl} alt={name}/>
             <div className='item-details'>
                 <span className='name'>{name}</span>
                 <span className='price'>${price} x {quantity}</span>

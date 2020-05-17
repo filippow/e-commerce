@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import './collectionItem.scss';
 
-import {addItem} from '../../redux/cart/cartActions'
+import {addItem} from '../../redux/cart/actions'
 
 import Button from '../button/Button';
 
