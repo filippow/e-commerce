@@ -11,10 +11,10 @@ import './directory.scss';
 const Directory = ({sections}) => {
     return (
         <div className='directory-menu'>
-            {sections.map(({id, ...props}) => (
+            {sections.map(({id, route, ...props}) => (
                 <MenuItem
                     key={id}
-                    linkUrl={`/hats/${id}`}
+                    route={route}
                     {...props}
                 />
             ))}
