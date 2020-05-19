@@ -12,11 +12,19 @@
   }
 
   .options {
-    width: 50%;
+    width: 70%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    .option-sirotkin {
+      cursor: pointer;
+      color: red;
+      text-transform: uppercase;
+      margin-right: 50px;
+      width: 200px;
+    }
 
     .option {
       padding: 10px 15px;

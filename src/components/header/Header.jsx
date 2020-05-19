@@ -21,6 +21,9 @@ const Header = ({currentUser, cartHidden}) => {
                 <Logo className='logo'/>
             </Link>
             <div className='options'>
+                <Link className='option option-sirotkin' to='/sirotkin'>
+                    СИРОТКИН - жми сюда
+                </Link>
                 <Link className='option' to='/shop'>
                     SHOP
                 </Link>

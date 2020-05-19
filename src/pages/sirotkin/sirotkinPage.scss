@@ -1,0 +1,98 @@
+input {
+  outline: none;
+}
+.statistics-grid-header {
+  margin-top: 15px;
+}
+
+.statistics-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.parameters {
+  flex: 1;
+
+  input {
+    height: 20px;
+    font-size: 17px;
+  }
+}
+
+.item-range {
+  input {
+    width: 90px;
+  }
+}
+
+.quantity-area {
+  flex: 2;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.input-field {
+  height: 20px;
+  font-size: 17px;
+  outline: none;
+}
+
+.input-container {
+  height: 30px;
+
+  span {
+    margin-left: 20px;
+  }
+}
+.input-item {
+  height: 20px;
+  width: 90px;
+  font-size: 17px;
+}
+
+.input-item-label {
+  display: inline-block;
+}
+
+.input-item-text {
+  height: 20px;
+  width: 300px;
+  font-size: 17px;
+}
+
+.launch {
+  button {
+    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+    background: lightblue;
+    transition: 300ms;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  button:hover {
+    background: #357ae8;
+  }
+}
+
+.result-section {
+  width: 100%;
+}
+.result-header-title {
+  width: 300px;
+  display: inline-block;
+}
+.result-header-item {
+  width: 300px;
+  display: inline-block;
+}
+
+.empty-result {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 24px;
+}

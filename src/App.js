@@ -6,6 +6,7 @@ import Header from './components/header/Header';
 import HomePage from './pages/home/HomePage';
 import ShopPage from './pages/shop/ShopPage';
 import CheckoutPage from "./pages/checkout/CheckoutPage";
+import SirotkinPage from "./pages/sirotkin/SirotkinPage";
 
 import Auth from './pages/auth/auth';
 import {auth, createUserProfilerDocument} from './firebase/firebaseUtil';
@@ -49,6 +50,7 @@ class App extends React.Component {
                 <Route exact path='/auth' render={this.renderAuthPage}/>
                 <Route path='/shop' component={ShopPage}/>
                 <Route path='/checkout' component={CheckoutPage}/>
+                <Route path='/sirotkin' component={SirotkinPage}/>
             </Switch>
         </div>
     )
