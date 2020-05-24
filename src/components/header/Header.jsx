@@ -1,9 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {createStructuredSelector} from "reselect";
-
-import './header.scss';
+import {createStructuredSelector} from 'reselect';
 
 import {ReactComponent as Logo} from '../../assets/logo.svg';
 import CartIcon from '../cart/icon/Icon';
@@ -11,45 +8,34 @@ import CartDropdown from '../cart/dropdown/Dropdown';
 
 import {auth} from '../../firebase/firebaseUtil';
 
-import {selectCartHidden } from '../../redux/cart/selectors';
-import {selectCurrentUser} from "../../redux/user/selectors";
+import {selectCartHidden} from '../../redux/cart/selectors';
+import {selectCurrentUser} from '../../redux/user/selectors';
+
+
+import {HeaderContainer, LogoContainer, OptionsContainer, OptionLink, SirotkinLink} from './Header.style';
 
 const Header = ({currentUser, cartHidden}) => {
     return (
-        <div className='header'>
-            <Link className='logo-container' to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className='logo'/>
-            </Link>
-            <div className='options'>
-                <Link className='option option-sirotkin' to='/sirotkin'>
+            </LogoContainer>
+            <OptionsContainer>
+                <SirotkinLink to='/sirotkin'>
                     СИРОТКИН - жми сюда
-                </Link>
-                <Link className='option' to='/shop'>
-                    SHOP
-                </Link>
-                <Link className='option' to='/'>
-                    CONTACT
-                </Link>
+                </SirotkinLink>
+                <OptionLink to='/shop'>SHOP</OptionLink>
+                <OptionLink to='/'>CONTACT</OptionLink>
                 {
                     currentUser ?
-                        <div
-                            className='option'
-                            onClick={() => {
-                                auth.signOut()
-                            }}
-                        >
-                            SIGN OUT
-                        </div>
+                        <OptionLink as='div' onClick={() => auth.signOut()}>SIGN OUT</OptionLink>
                         :
-                        <Link className='option'
-                              to='/auth'
-                        >SIGN IN</Link>
+                        <OptionLink to='/auth'>SIGN IN</OptionLink>
                 }
-
                 <CartIcon/>
-            </div>
+            </OptionsContainer>
             {cartHidden ? null : <CartDropdown/>}
-        </div>
+        </HeaderContainer>
     );
 };
 
