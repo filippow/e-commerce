@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {calculateResult} from "./utils";
 
 import './sirotkinPage.scss';
+import {addItem} from "../../redux/cart/actions";
 
 class SirotkinPage extends Component {
     state = {
-        stationsQuantity: 11,
+        stationsQuantity: 6,
         values: {
             1: {x: 9, t: 35},
             2: {x: 9, t: 34.58},
@@ -44,10 +46,11 @@ class SirotkinPage extends Component {
             }
         }
         this.setState({values});
+        this.saveState();
     }
 
     submitForm = event => {
-        let {values, bettaStep,bettaLeftRange, bettaRightRange, inaccuracy, stationsQuantity} = this.state;
+        let {values, bettaStep, bettaLeftRange, bettaRightRange, inaccuracy, stationsQuantity} = this.state;
         let isError = false;
 
         let bettaRange,
@@ -59,7 +62,7 @@ class SirotkinPage extends Component {
 
         Object.keys(values).forEach(key => {
             let {x, t} = values[key];
-            if (Number(key) <=stationsQuantity) {
+            if (Number(key) <= stationsQuantity) {
 
                 if (!x || !t) {
                     isError = true;
@@ -80,18 +83,31 @@ class SirotkinPage extends Component {
         result.sort(this.sortFn);
 
         this.setState({
-            resultList: result.slice(0,3)
+            resultList: result.slice(0, 3)
         })
 
+        this.saveState();
     }
 
-    sortFn = (a,b) => {
+    sortFn = (a, b) => {
         let aNum = Math.abs(a.result),
             bNum = Math.abs(b.result);
 
         if (aNum > bNum) return 1;
-        if ( aNum=== bNum) return 0;
-        if ( aNum < bNum) return -1;
+        if (aNum === bNum) return 0;
+        if (aNum < bNum) return -1;
+    }
+
+    saveState = () => {
+        window.localStorage.setItem('sirotkin', JSON.stringify(this.state));
+    }
+
+    componentDidMount = () => {
+        let state = JSON.parse(window.localStorage.getItem('sirotkin'));
+
+        if (state) {
+            this.setState(state);
+        }
     }
 
 
@@ -114,7 +130,7 @@ class SirotkinPage extends Component {
                                 values = this.state.values;
 
 
-                            for (let i=1; i<= quantity; i++) {
+                            for (let i = 1; i <= quantity; i++) {
                                 if (!values[i]) {
                                     values[i] = {x: '', t: ''};
                                 }
@@ -122,7 +138,7 @@ class SirotkinPage extends Component {
 
                             this.setState({
                                 values: values,
-                                stationsQuantity: event.target.valueAsNumber || 2
+                                stationsQuantity: event.target.valueAsNumber || ''
                             })
                         }}
                     />
@@ -138,6 +154,7 @@ class SirotkinPage extends Component {
                                     <input
                                         className='input-item-text'
                                         type='text'
+                                        value = {this.state.values[index+1].description || ''}
                                         onChange={({target}) => {
                                             this.handleParamStationChange('description', index + 1, target.value)
                                         }}
@@ -149,9 +166,9 @@ class SirotkinPage extends Component {
                                         max={1000}
                                         className='input-item'
                                         type='number'
-                                        value = {this.state.values[index+1].x}
+                                        value={this.state.values[index + 1].x || ''}
                                         onChange={({target}) => {
-                                            this.handleParamStationChange('x', index + 1, target.value)
+                                            this.handleParamStationChange('x', index + 1, target.valueAsNumber)
                                         }}
                                     />
                                     <span>{`t${index + 1}`}</span>
@@ -161,9 +178,9 @@ class SirotkinPage extends Component {
                                         max={99999}
                                         className='input-item'
                                         type='number'
-                                        value = {this.state.values[index+1].t}
+                                        value={this.state.values[index + 1].t || ''}
                                         onChange={({target}) => {
-                                            this.handleParamStationChange('t', index + 1, target.value)
+                                            this.handleParamStationChange('t', index + 1, target.valueAsNumber)
                                         }}
                                     />
                                 </div>
@@ -182,7 +199,8 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaStep: event.target.value
-                                    })
+                                    });
+                                    this.saveState();
                                 }}
 
                             />
@@ -195,7 +213,8 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         inaccuracy: event.target.value
-                                    })
+                                    });
+                                    this.saveState();
                                 }}
                             />
                         </div>
@@ -217,7 +236,8 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaLeftRange: event.target.value
-                                    })
+                                    });
+                                    this.saveState();
                                 }}
                             />
                             <span style={{marginLeft: 20}}>До</span>
@@ -230,7 +250,8 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaRightRange: event.target.value
-                                    })
+                                    });
+                                    this.saveState();
                                 }}
                             />
                         </div>
@@ -241,22 +262,22 @@ class SirotkinPage extends Component {
                     <button onClick={this.submitForm}> Выполнить рассчет</button>
                 </div>
                 <div className="result-section">
-                   <div className="result-header">
-                       <span className='result-header-title'>Альфа</span>
-                       <span className='result-header-title'>Бетта</span>
-                       <span className='result-header-title'>Погрешность подсчета</span>
-                   </div>
+                    <div className="result-header">
+                        <span className='result-header-title'>Альфа</span>
+                        <span className='result-header-title'>Бетта</span>
+                        <span className='result-header-title'>Погрешность подсчета</span>
+                    </div>
                     <div className="result-content">
                         {
                             this.state.resultList.length ?
-                            this.state.resultList.map((item, index)=> (
-                                <div key={index}>
-                                    <span className='result-header-item'>{item.Alpha.toFixed(3)}</span>
-                                    <span className='result-header-item'>{item.Betta.toFixed(3)}</span>
-                                    <span className='result-header-item'>{item.result.toFixed(6)}</span>
-                                </div>
+                                this.state.resultList.map((item, index) => (
+                                    <div key={index}>
+                                        <span className='result-header-item'>{item.Alpha.toFixed(3)}</span>
+                                        <span className='result-header-item'>{item.Betta.toFixed(3)}</span>
+                                        <span className='result-header-item'>{item.result.toFixed(6)}</span>
+                                    </div>
 
-                            ))
+                                ))
                                 :
                                 <div className='empty-result'>Найденных значений нет, измените выборку для поиска</div>
                         }
