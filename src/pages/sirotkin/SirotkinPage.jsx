@@ -45,8 +45,9 @@ class SirotkinPage extends Component {
                 [parameter]: value
             }
         }
-        this.setState({values});
-        this.saveState();
+        this.setState({values}, ()=> {
+            this.saveState()
+        });
     }
 
     submitForm = event => {
@@ -84,9 +85,9 @@ class SirotkinPage extends Component {
 
         this.setState({
             resultList: result.slice(0, 3)
+        }, ()=> {
+            this.saveState();
         })
-
-        this.saveState();
     }
 
     sortFn = (a, b) => {
@@ -199,8 +200,9 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaStep: event.target.value
+                                    }, () => {
+                                        this.saveState();
                                     });
-                                    this.saveState();
                                 }}
 
                             />
@@ -213,8 +215,9 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         inaccuracy: event.target.value
+                                    }, ()=> {
+                                        this.saveState();
                                     });
-                                    this.saveState();
                                 }}
                             />
                         </div>
@@ -236,8 +239,9 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaLeftRange: event.target.value
+                                    }, ()=> {
+                                        this.saveState();
                                     });
-                                    this.saveState();
                                 }}
                             />
                             <span style={{marginLeft: 20}}>До</span>
@@ -250,8 +254,10 @@ class SirotkinPage extends Component {
                                 onChange={(event) => {
                                     this.setState({
                                         bettaRightRange: event.target.value
+                                    }, ()=> {
+                                        this.saveState();
                                     });
-                                    this.saveState();
+
                                 }}
                             />
                         </div>
