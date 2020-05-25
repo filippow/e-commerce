@@ -6,8 +6,20 @@ import './sirotkinPage.scss';
 
 class SirotkinPage extends Component {
     state = {
-        stationsQuantity: 5,
-        values: {},
+        stationsQuantity: 11,
+        values: {
+            1: {x: 9, t: 35},
+            2: {x: 9, t: 34.58},
+            3: {x: 4, t: 29.96},
+            4: {x: 10, t: 35},
+            5: {x: 6, t: 35},
+            6: {x: 13, t: 35},
+            7: {x: 5, t: 34.08},
+            8: {x: 1, t: 33.97},
+            9: {x: 3, t: 35},
+            10: {x: 2, t: 35},
+            11: {x: 2, t: 35}
+        },
         bettaStep: 0.01,
         inaccuracy: 0.1,
         bettaLeftRange: 0,
@@ -35,7 +47,8 @@ class SirotkinPage extends Component {
     }
 
     submitForm = event => {
-        let {values, bettaStep,bettaLeftRange, bettaRightRange, inaccuracy } = this.state;
+        let {values, bettaStep,bettaLeftRange, bettaRightRange, inaccuracy, stationsQuantity} = this.state;
+        let isError = false;
 
         let bettaRange,
             inputData = [];
@@ -44,13 +57,24 @@ class SirotkinPage extends Component {
         bettaStep = Number(bettaStep);
         bettaRange = [Number(bettaLeftRange), Number(bettaRightRange)];
 
-        Object.values(values).forEach(item => {
-            inputData.push({
-                x: Number(item.x),
-                t: Number(item.t)
-            })
+        Object.keys(values).forEach(key => {
+            let {x, t} = values[key];
+            if (Number(key) <=stationsQuantity) {
+
+                if (!x || !t) {
+                    isError = true;
+                }
+                inputData.push({
+                    x: Number(x),
+                    t: Number(t)
+                })
+            }
         });
 
+        if (isError) {
+            alert('Заполните все поля');
+            return false;
+        }
         var result = calculateResult(inputData, bettaRange, bettaStep, inaccuracy);
 
         result.sort(this.sortFn);
@@ -75,8 +99,6 @@ class SirotkinPage extends Component {
         const {stationsQuantity} = this.state;
         const itemsArray = new Array(stationsQuantity).fill(1);
 
-        console.log(this.state);
-
         return (
             <div>
                 <div className='statistics-header'>
@@ -88,9 +110,19 @@ class SirotkinPage extends Component {
                         type='number'
                         value={this.state.stationsQuantity}
                         onChange={(event) => {
+                            let quantity = event.target.valueAsNumber,
+                                values = this.state.values;
+
+
+                            for (let i=1; i<= quantity; i++) {
+                                if (!values[i]) {
+                                    values[i] = {x: '', t: ''};
+                                }
+                            }
 
                             this.setState({
-                                stationsQuantity: Number(event.target.value) || ''
+                                values: values,
+                                stationsQuantity: event.target.valueAsNumber || 2
                             })
                         }}
                     />
@@ -117,6 +149,7 @@ class SirotkinPage extends Component {
                                         max={1000}
                                         className='input-item'
                                         type='number'
+                                        value = {this.state.values[index+1].x}
                                         onChange={({target}) => {
                                             this.handleParamStationChange('x', index + 1, target.value)
                                         }}
@@ -128,6 +161,7 @@ class SirotkinPage extends Component {
                                         max={99999}
                                         className='input-item'
                                         type='number'
+                                        value = {this.state.values[index+1].t}
                                         onChange={({target}) => {
                                             this.handleParamStationChange('t', index + 1, target.value)
                                         }}

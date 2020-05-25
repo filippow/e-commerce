@@ -3,6 +3,7 @@
 export const calculateResult = (inputData, bettaRange, bettaStep, inaccuracy) => {
     const finalResult = [];
 
+
     const getHighArgument = (Betta) => {
         let res = 0;
 
@@ -25,7 +26,7 @@ export const calculateResult = (inputData, bettaRange, bettaStep, inaccuracy) =>
         let res = 0;
 
         for (let j = 1; j <= i; j++) {
-            res = 1 / (Alpha + j - 1);
+            res += 1 / (Alpha + j - 1);
         }
 
         return res;
@@ -36,7 +37,7 @@ export const calculateResult = (inputData, bettaRange, bettaStep, inaccuracy) =>
 
         for (let i = 1; i <= inputDataLength; i++) {
 
-            difference += getPsiDifference(i, Alpha) - Math.log((1 + inputData[i - 1].t)/Betta);
+            difference += getPsiDifference(inputData[i-1].x, Alpha) - Math.log(1 + (inputData[i - 1].t/Betta));
         }
 
         return difference;
