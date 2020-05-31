@@ -1,14 +1,21 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 import './collectionPreview.scss';
 
 import CollectionItem from '../collectionItem/CollectionItem';
 
 
-const CollectionPreview = ({title, items}) => {
+const CollectionPreview = ({title, items, titleRoute}) => {
     return (
         <div className='collection-preview'>
-            <h1 className='collection-title'>{title}</h1>
+            {
+                titleRoute ?
+                    <Link className='title title-link' to={titleRoute}>{title}</Link>
+                    :
+                    <div className='title'>{title}</div>
+            }
+
             <div className='preview'>
                 {
                     items

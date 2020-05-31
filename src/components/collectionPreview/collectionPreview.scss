@@ -8,6 +8,10 @@
     margin-bottom: 25px;
   }
 
+  .title-link:hover {
+    text-decoration: underline;
+  }
+
   .preview {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

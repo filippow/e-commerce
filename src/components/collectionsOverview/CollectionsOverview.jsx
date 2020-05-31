@@ -12,7 +12,13 @@ const CollectionsOverview = ({collections}) => {
     return (
         <div className='collections-overview'>
             {collections.map(({id, ...otherCollectionProps})=> {
-                 return <CollectionPreview key={id} {...otherCollectionProps}/>
+                const titleRoute = 'shop/' + decodeURI(otherCollectionProps.title.toLowerCase());
+
+                 return <CollectionPreview
+                     key={id}
+                     titleRoute={titleRoute}
+                     {...otherCollectionProps}
+                 />
             })}
         </div>
     );

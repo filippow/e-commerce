@@ -53,5 +53,22 @@ export const createUserProfilerDocument = async (userAuth, additionalData) => {
     return userRef;
 }
 
+export const convertCollectionsSnapshotToMap = collections => {
+    const collectionsMap = {};
+
+    collections.docs.forEach(doc=> {
+        const {title, items} = doc.data();
+
+        collectionsMap[title.toLowerCase()] = {
+            id: doc.id,
+            routeName: encodeURI(title.toLowerCase()),
+            title,
+            items
+        }
+    });
+
+    return collectionsMap;
+}
+
 
 export default firebase;
