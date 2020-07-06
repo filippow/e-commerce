@@ -1,5 +1,7 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import './App.scss';
 
 import Header from './components/header/Header';
@@ -7,39 +9,24 @@ import HomePage from './pages/home/HomePage';
 import ShopPage from './pages/shop/ShopPage';
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import SirotkinPage from "./pages/sirotkin/SirotkinPage";
-
 import Auth from './pages/auth/auth';
-import {auth, createUserProfilerDocument} from './firebase/firebaseUtil';
-import {connect} from 'react-redux';
-import {setCurrentUser} from './redux/user/actions';
+
+import {checkUserSession} from "./redux/user/actions";
 import {selectCurrentUser} from "./redux/user/selectors";
 
 class App extends React.Component {
-    unsubscribeFromAuth = null;
+    // unsubscribeFromAuth = null;
 
     componentDidMount() {
-        const {setCurrentUser} = this.props;
+        const {checkUserSession} = this.props;
 
-        this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-            if (userAuth) {
-                const userRef = await createUserProfilerDocument(userAuth);
-
-                userRef.onSnapshot(snapshot => {
-                    setCurrentUser({
-                        id: snapshot.id,
-                        ...snapshot.data()
-                    });
-                });
-            }
-
-            setCurrentUser(userAuth);
-        });
+        checkUserSession();
     }
 
     componentWillUnmount() {
-        if (this.unsubscribeFromAuth) {
-            this.unsubscribeFromAuth()
-        }
+        // if (this.unsubscribeFromAuth) {
+        //     this.unsubscribeFromAuth()
+        // }
     }
 
     render = () => (
@@ -66,8 +53,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+const mapDispatchToProps = dispatch => {
+    return {
+        checkUserSession:  () => dispatch(checkUserSession())
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
