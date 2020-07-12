@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -14,37 +14,28 @@ import Auth from './pages/auth/auth';
 import {checkUserSession} from "./redux/user/actions";
 import {selectCurrentUser} from "./redux/user/selectors";
 
-class App extends React.Component {
-    // unsubscribeFromAuth = null;
-
-    componentDidMount() {
-        const {checkUserSession} = this.props;
-
+const App = ({checkUserSession, currentUser}) => {
+    useEffect(() => {
         checkUserSession();
+    }, [checkUserSession]);
+
+
+    const renderAuthPage = () => {
+        return currentUser ? <Redirect to='/'/> : <Auth/>;
     }
 
-    componentWillUnmount() {
-        // if (this.unsubscribeFromAuth) {
-        //     this.unsubscribeFromAuth()
-        // }
-    }
-
-    render = () => (
+    return (
         <div>
             <Header/>
             <Switch>
                 <Route exact path='/' component={HomePage}/>
-                <Route exact path='/auth' render={this.renderAuthPage}/>
+                <Route exact path='/auth' render={renderAuthPage}/>
                 <Route path='/shop' component={ShopPage}/>
                 <Route path='/checkout' component={CheckoutPage}/>
                 <Route path='/sirotkin' component={SirotkinPage}/>
             </Switch>
         </div>
     )
-
-    renderAuthPage = () => {
-        return this.props.currentUser ? <Redirect to='/'/> : <Auth/>;
-    }
 }
 
 const mapStateToProps = (state) => {
@@ -55,7 +46,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        checkUserSession:  () => dispatch(checkUserSession())
+        checkUserSession: () => dispatch(checkUserSession())
     }
 }
 

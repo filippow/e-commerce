@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 
 import {calculateResult} from "./utils";
 
 import './sirotkinPage.scss';
-import {addItem} from "../../redux/cart/actions";
 
 class SirotkinPage extends Component {
     state = {

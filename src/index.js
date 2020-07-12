@@ -8,8 +8,6 @@ import {store, persistor} from './redux/store';
 
 import './index.scss';
 import App from './App';
-import {isElement} from "react-dom/test-utils";
-import diff from "redux-logger/src/diff";
 
 ReactDOM.render(
     <Provider store={store}>
